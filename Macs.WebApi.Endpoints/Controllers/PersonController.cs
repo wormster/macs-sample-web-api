@@ -1,3 +1,4 @@
+using Macs.WebApi.Handlers.Services;
 using Macs.WebApi.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,25 +13,19 @@ namespace Macs.WebApi.Endpoints.Controllers
     public class PersonController : ControllerBase
     {
         private readonly ILogger<PersonController> _logger;
+        private readonly IPersonHandler personHandler;
 
-        public PersonController(ILogger<PersonController> logger)
+        public PersonController(ILogger<PersonController> logger, IPersonHandler personHandler)
         {
             _logger = logger;
+            this.personHandler = personHandler ?? throw new ArgumentNullException(nameof(personHandler));
         }
 
         [HttpGet(Name = "GetList")]
         public IEnumerable<Person> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new Person
-            {
-                DateOfBirth = new DateTime(2000,11,18),
-                FirstName = $"John{index}",
-                MiddleName = "Stewart",
-                LastName = $"Wormald{index}",
-                Id = Guid.NewGuid(),
-                Title = "Mr.",
-            })
-            .ToArray();
+            //TODO: add decorations according to http standards
+            return this.personHandler.GetList();
         }
     }
 }

@@ -161,3 +161,4 @@ obj
 /.vs/Macs.WebApi/v17/.futdcache.v2
 /.vs/Macs.WebApi/v17/.suo
 *.bin
+*.vsidx
