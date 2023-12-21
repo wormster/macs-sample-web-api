@@ -151,3 +151,13 @@
 /.github
 bin
 obj
+/.vs/Macs.WebApi/DesignTimeBuild/.dtbcache.v2
+/.vs/Macs.WebApi/FileContentIndex/1d7290f6-68ce-4cca-8958-1fd1aaa99795.vsidx
+/.vs/Macs.WebApi/FileContentIndex/ca6657a8-2103-4299-8cb3-7cebae2c6b71.vsidx
+/.vs/Macs.WebApi/FileContentIndex/d53d7ccd-8d9e-4b74-906d-67fe1b2c42b1.vsidx
+/.vs/Macs.WebApi/FileContentIndex/e30cb624-9aee-4808-ba96-afd116e4dc4d.vsidx
+/.vs/Macs.WebApi/FileContentIndex/f6b3067a-e4d2-4a15-876f-5bc019745e12.vsidx
+/.vs/Macs.WebApi/config/applicationhost.config
+/.vs/Macs.WebApi/v17/.futdcache.v2
+/.vs/Macs.WebApi/v17/.suo
+*.bin
