@@ -9,7 +9,8 @@ namespace Macs.WebApi.Handlers.Services
 {
     public interface IPersonHandler
     {
-        IList<Person> GetList();
-
+        Task<IList<Person>> GetList();
+        Task<Person> GetPerson(string id);
+        Task<IList<Address>> GetAddresses(string id);
     }
 }
