@@ -1,9 +1,9 @@
 ﻿using Macs.WebApi.DataAccess.Repositories;
-using Macs.WebApi.Models.Entities;
+using Macs.WebApi.DataAccess.Entities;
 
 namespace Macs.WebApi.Handlers.Services
 {
-    public class PersonHandler : IPersonHandler
+    public class PersonHandler: IPersonHandler
     {
         private IPersonRepository personRepository;
         private IAddressRepository addressRepository;
@@ -13,38 +13,56 @@ namespace Macs.WebApi.Handlers.Services
             this.addressRepository = addressRepository;
         }
 
-        public async Task<IList<Person>> GetList()
+        public async Task<IEnumerable<Person>> GetListAsync()
         {
             var people = await personRepository.GetAllAsync();
 
-            return people.ToList();
-
-            //return Enumerable.Range(1, 5).Select(index => new Person
-            //    {
-            //        DateOfBirth = new DateTime(2000, 11, 18),
-            //        FirstName = $"John{index}",
-            //        MiddleName = "Stewart",
-            //        LastName = $"Wormald{index}",
-            //        Id = Guid.NewGuid(),
-            //        Title = "Mr.",
-            //    })
-            //    .ToArray();
+            return people;
         }
 
-        public async Task<Person> GetPerson(string id)
+        public async Task<IEnumerable<Person>> Search(string searchTerm)
         {
-            var person = await personRepository.GetByIdAsync(new Guid(id));
+            var people = await personRepository.Search(searchTerm);
+
+            return people;
+        }
+
+        public async Task<Person> GetPersonAsync(string id)
+        {
+            var person = await personRepository.FindByKeyAsync(new Guid(id));
 
             return person;
 
         }
 
-        public async Task<IList<Address>> GetAddresses(string id)
+        public async Task<Person>AddPerson(Person person)
         {
-            var addresses = await addressRepository.GetAddressesByPersonId(new Guid(id));
+            var result = await personRepository.InsertAsync(person);
+            await personRepository.SaveChangesAsync();
 
-            return addresses.ToList();
+            return result;
+        }
 
+        public async Task<Person> UpdatePersonAsync(Person person)
+        {
+            personRepository.Update(person);
+            await personRepository.SaveChangesAsync();
+
+            return person;
+        }
+
+        public async Task DeletePersonAsync(string id)
+        {
+
+            await personRepository.DeleteAsync(new Guid(id));
+            await personRepository.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Address>> GetPersonAddressesAsync(string id)
+        {
+
+            var person = await personRepository.FindByKeyIncludeAddresses(new Guid(id));
+            return person.Addresses;
         }
     }
 }

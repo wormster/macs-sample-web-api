@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Macs.WebApi.DataAccess\Macs.WebApi.DataAccess.csproj" />
-    <ProjectReference Include="..\Macs.WebApi.Models\Macs.WebApi.Models.csproj" />
   </ItemGroup>
 
 </Project>

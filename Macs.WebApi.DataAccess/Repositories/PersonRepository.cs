@@ -1,20 +1,29 @@
-﻿using Macs.WebApi.Models.Entities;
-using NPoco;
+﻿using Macs.WebApi.DataAccess.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Linq.Expressions;
 
 namespace Macs.WebApi.DataAccess.Repositories
 {
     public class PersonRepository : GenericRepository<Person>, IPersonRepository 
     {
-        public PersonRepository(string connectionString) : base(connectionString)
+        public PersonRepository(MacsContext context) : base(context)
         {
         }
+
         public async Task<IEnumerable<Person>> Search(string searchTerm)
         {
-            using (IDatabase db = Connection)
-            {
-                return await db.FetchAsync<Person>($"SELECT * FROM Person WHERE Name='{searchTerm}'");
-            }
+            return await FindByAsync(n => n.FirstName.Contains(searchTerm) || n.LastName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
         }
-        
+
+        public async Task<Person> FindByKeyIncludeAddresses(Guid id)
+        {
+            var person =  await dbSet.AsNoTracking()
+                .Where(e => e.Id == id)
+                .Include(a => a.Addresses)
+                .FirstOrDefaultAsync();
+
+            return person;
+        }
     }
 }

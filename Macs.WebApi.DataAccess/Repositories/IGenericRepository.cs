@@ -1,16 +1,19 @@
-﻿using System.Linq.Expressions;
+﻿using Macs.WebApi.DataAccess.Entities;
+using System.Linq.Expressions;
 using System.Security.Cryptography;
 
 namespace Macs.WebApi.DataAccess.Repositories
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<TEntity> where TEntity : class, IBaseEntity
     {
-        Task<T> GetByIdAsync(int id);
-        Task<T> GetByIdAsync(Guid id);
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<decimal> AddAsync(T entity);
-        Task<int> UpdateAsync(T entity);
-        void Delete(int id);
-        Task<int> DeleteAsync(T entity);
+        Task<TEntity> InsertAsync(TEntity entity);
+        void Delete(TEntity entity);
+        Task DeleteAsync(Guid id);
+        Task<TEntity> GetByIdAsync(Guid id);
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> FindByKeyAsync(Guid id);
+        void Update(TEntity entity);   
+        Task SaveChangesAsync();
     }
 }

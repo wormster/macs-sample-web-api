@@ -1,7 +1,8 @@
 using Macs.WebApi.Handlers.Services;
-using Macs.WebApi.Models.Entities;
+using Macs.WebApi.DataAccess.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Macs.WebApi.Endpoints.Controllers
 {
@@ -21,7 +22,7 @@ namespace Macs.WebApi.Endpoints.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<Person>>> Get()
         {
-            var people = await this.personHandler.GetList();
+            var people = await personHandler.GetListAsync();
             return Ok(people);
         }
 
@@ -30,8 +31,53 @@ namespace Macs.WebApi.Endpoints.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<Person>>> GetPerson(string id)
         {
-            var people = await this.personHandler.GetPerson(id);
-            return Ok(people);
+            if (!Guid.TryParse(id, out _))
+            {
+                return BadRequest();
+            }
+
+            var person = await personHandler.GetPersonAsync(id);
+
+            if (person == null)
+                return NotFound();
+
+            return Ok(person);
+        }
+
+        [HttpPost]
+        [Route("person", Name = "AddPerson")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<Person>> AddPerson([FromBody] Person person )
+        {
+            await personHandler.AddPerson(person);
+
+            return CreatedAtAction("GetPerson",
+                new { id = person.Id },
+                person);
+        }
+
+        [HttpPut]
+        [Route("person", Name = "UpdatePerson")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> UpdatePerson([FromBody] Person person)
+        {
+            await personHandler.UpdatePersonAsync(person);
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("person/{id}", Name = "DeletePerson")]
+        public async Task<ActionResult<Person>> DeletePerson(string id)
+        {
+            if (!Guid.TryParse(id, out _))
+            {
+                return BadRequest();
+            }
+
+            await personHandler.DeletePersonAsync(id);
+
+            return NoContent(); // person == null? NotFound() : person;
         }
 
         [HttpGet]
@@ -39,7 +85,12 @@ namespace Macs.WebApi.Endpoints.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<Address>>> GetPersonAddresses(string id)
         {
-            var addresses = await this.personHandler.GetAddresses(id);
+            if (!Guid.TryParse(id, out _))
+            {
+                return BadRequest();
+            }
+
+            var addresses = await personHandler.GetPersonAddressesAsync(id);
             return Ok(addresses);
         }
 

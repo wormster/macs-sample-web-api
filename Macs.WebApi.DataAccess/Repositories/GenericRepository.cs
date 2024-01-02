@@ -1,64 +1,72 @@
-﻿using Microsoft.Data.SqlClient;
-using NPoco;
+﻿using Macs.WebApi.DataAccess.Entities;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
+using System.Linq.Expressions;
 
 namespace Macs.WebApi.DataAccess.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IBaseEntity
     {
-        private string connectionString;
-        public GenericRepository(string connectionString)
+        internal readonly DbContext context;
+        internal readonly DbSet<TEntity> dbSet;
+        public GenericRepository(DbContext context)
         {
-            this.connectionString = connectionString;
+             this.context = context;
+            dbSet = context.Set<TEntity>();
         }
 
-        public IDatabase Connection => new Database(connectionString, DatabaseType.SqlServer2012, SqlClientFactory.Instance);
-
-        public async Task<decimal> AddAsync(T entity)
+        public async Task<TEntity> InsertAsync(TEntity entity)
         {
-            using IDatabase db = Connection;
-            var result = await db.InsertAsync(entity);
-
-            return (decimal)result;
+            await dbSet.AddAsync(entity);
+            return entity;
         }
 
-        public async Task<T> GetByIdAsync(int id)
+        public void Delete(TEntity entity)
         {
-            using IDatabase db = Connection;
-            return await db.SingleByIdAsync<T>(id);
+            context.Set<TEntity>().Remove(entity);
         }
 
-        public async Task<T> GetByIdAsync(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            using IDatabase db = Connection;
-            return await db.SingleByIdAsync<T>(id);
-        }
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            using IDatabase db = Connection;
-            var all = await db.FetchAsync<T>();
-            return all;
+            var entity = await FindByKeyAsync(id);
+            dbSet.Remove(entity);
         }
 
-        public async Task<int> DeleteAsync(T entity)
+        public async Task<TEntity> GetByIdAsync(Guid id)
         {
-            using IDatabase db = Connection;
-            var result = await db.DeleteAsync(entity);
-            return result;
+            return await context.Set<TEntity>().SingleAsync(entity => entity.Id == id);
         }
 
-        public void Delete(int id)
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            using IDatabase db = Connection;
-            db.Delete<T>(id);
+            return await dbSet.AsNoTracking().ToListAsync();
         }
 
-        public async Task<int> UpdateAsync(T entity)
+        public async Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            using IDatabase db = Connection;
-            var result = await db.UpdateAsync(entity);
+            IEnumerable<TEntity> results = await dbSet.AsNoTracking()
+                .Where(predicate)
+                .ToListAsync();
 
-            return result;
+            return results;
+        }
+
+        public async Task<TEntity> FindByKeyAsync(Guid id)
+        {
+            return await dbSet.AsNoTracking()
+                .SingleOrDefaultAsync(e => e.Id == id);
+        }
+
+        public void Update(TEntity entity)
+        {
+            dbSet.Attach(entity);
+            context.Entry(entity).State = EntityState.Modified;
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await context.SaveChangesAsync();
         }
     }
 }
