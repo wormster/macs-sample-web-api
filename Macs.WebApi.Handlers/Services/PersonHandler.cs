@@ -29,7 +29,7 @@ namespace Macs.WebApi.Handlers.Services
 
         public async Task<Person> GetPersonAsync(string id)
         {
-            var person = await personRepository.FindByKeyAsync(new Guid(id));
+            var person = await personRepository.FindByKeyIncludeAddressesAndContacts(new Guid(id));
 
             return person;
 
@@ -61,7 +61,7 @@ namespace Macs.WebApi.Handlers.Services
         public async Task<IEnumerable<Address>> GetPersonAddressesAsync(string id)
         {
 
-            var person = await personRepository.FindByKeyIncludeAddresses(new Guid(id));
+            var person = await personRepository.FindByKeyIncludeAddressesAndContacts(new Guid(id));
             return person.Addresses;
         }
     }

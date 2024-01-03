@@ -16,11 +16,12 @@ namespace Macs.WebApi.DataAccess.Repositories
             return await FindByAsync(n => n.FirstName.Contains(searchTerm) || n.LastName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
         }
 
-        public async Task<Person> FindByKeyIncludeAddresses(Guid id)
+        public async Task<Person> FindByKeyIncludeAddressesAndContacts(Guid id)
         {
             var person =  await dbSet.AsNoTracking()
                 .Where(e => e.Id == id)
                 .Include(a => a.Addresses)
+                .Include(c => c.Contacts)
                 .FirstOrDefaultAsync();
 
             return person;

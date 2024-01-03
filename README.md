@@ -1,7 +1,15 @@
 # macs-sample-web-api for Entity Framework
-Open a Developer PowerShell from VS
+Open the Developer PowerShell from VS, View -> Terminal
 
 cd Macs.WebApi.Endpoints
+
+Enter the following command to add the tools for EF
+
+dotnet tool install -g dotnet-ef
+
+Confirm the version
+
+dotnet ef --version
 
 Enter the following command to create the migration file in the Migrations folder within the Macs.WebApi.DataAccess project.
 
