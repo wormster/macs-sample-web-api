@@ -13,6 +13,7 @@ namespace Macs.WebApi.DataAccess.Repositories
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> predicate);
         Task<TEntity> FindByKeyAsync(Guid id);
+        Task<IEnumerable<TEntity>> QueryAsync(string query);
         void Update(TEntity entity);   
         Task SaveChangesAsync();
     }

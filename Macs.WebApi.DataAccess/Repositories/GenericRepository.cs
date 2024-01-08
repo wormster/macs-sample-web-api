@@ -6,15 +6,11 @@ using System.Linq.Expressions;
 
 namespace Macs.WebApi.DataAccess.Repositories
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class, IBaseEntity
+    public class GenericRepository<TEntity>(DbContext context) : IGenericRepository<TEntity>
+        where TEntity : class, IBaseEntity
     {
-        internal readonly DbContext context;
-        internal readonly DbSet<TEntity> dbSet;
-        public GenericRepository(DbContext context)
-        {
-             this.context = context;
-            dbSet = context.Set<TEntity>();
-        }
+        internal readonly DbContext context = context;
+        internal readonly DbSet<TEntity> dbSet = context.Set<TEntity>();
 
         public async Task<TEntity> InsertAsync(TEntity entity)
         {
@@ -56,6 +52,11 @@ namespace Macs.WebApi.DataAccess.Repositories
         {
             return await dbSet.AsNoTracking()
                 .SingleOrDefaultAsync(e => e.Id == id);
+        }
+
+        public async Task<IEnumerable<TEntity>> QueryAsync(string query)
+        {
+            return await context.Database.SqlQuery<TEntity>($"{query}").ToListAsync();
         }
 
         public void Update(TEntity entity)

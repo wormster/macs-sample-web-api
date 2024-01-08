@@ -73,17 +73,59 @@ namespace Macs.WebApi.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e2a22c01-8900-4b4d-9377-45b67b65cca9"),
-                            AddressLine1 = "Address Line 1",
-                            AddressLine2 = "Address Line 2",
-                            AddressLine3 = "Address Line 3",
+                            Id = new Guid("43097261-61bb-4cc7-8515-567b1f1e4f20"),
+                            AddressLine1 = "Heriot-Watt University",
+                            AddressLine2 = "",
+                            AddressLine3 = "",
                             City = "Edinburgh",
                             Country = "Scotland",
                             IsActive = true,
-                            PersonId = new Guid("9d8191d0-5a97-4539-8082-13055ccd1aeb"),
-                            PostCode = "1ED",
+                            PersonId = new Guid("959d7bf9-51f9-4a70-9f35-8fa82e06c718"),
+                            PostCode = " EH14 4AS",
                             Preferred = true,
-                            Type = 0
+                            Type = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("847c1f1a-17f7-44c6-a3b9-ccf24b9bc728"),
+                            AddressLine1 = "Heriot-Watt University",
+                            AddressLine2 = "",
+                            AddressLine3 = "",
+                            City = "Edinburgh",
+                            Country = "Scotland",
+                            IsActive = true,
+                            PersonId = new Guid("a3442178-b1ab-4ed6-92f3-24888c5aca1c"),
+                            PostCode = " EH14 4AS",
+                            Preferred = true,
+                            Type = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("7cb0b701-13de-4453-85c3-e0954268de2d"),
+                            AddressLine1 = "Heriot-Watt University",
+                            AddressLine2 = "",
+                            AddressLine3 = "",
+                            City = "Edinburgh",
+                            Country = "Scotland",
+                            IsActive = true,
+                            PersonId = new Guid("1d85075e-ce29-4c91-9e68-5fc11422e233"),
+                            PostCode = " EH14 4AS",
+                            Preferred = true,
+                            Type = 2
+                        },
+                        new
+                        {
+                            Id = new Guid("4444210e-fc70-4771-915e-91068ada5343"),
+                            AddressLine1 = "Heriot-Watt University",
+                            AddressLine2 = "",
+                            AddressLine3 = "",
+                            City = "Edinburgh",
+                            Country = "Scotland",
+                            IsActive = true,
+                            PersonId = new Guid("c67b71b0-a5c4-4f90-909a-90894a5548ca"),
+                            PostCode = " EH14 4AS",
+                            Preferred = true,
+                            Type = 2
                         });
                 });
 
@@ -118,12 +160,39 @@ namespace Macs.WebApi.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4103f5bb-2ffd-4581-934e-b5fdb0979299"),
+                            Id = new Guid("bd0c784d-a0cc-4258-9b84-31ecf7c94b7e"),
                             IsActive = true,
-                            PersonId = new Guid("9d8191d0-5a97-4539-8082-13055ccd1aeb"),
+                            PersonId = new Guid("959d7bf9-51f9-4a70-9f35-8fa82e06c718"),
                             Preferred = true,
                             Type = 1,
-                            Value = "mirela@home.com"
+                            Value = "mirela@hw.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("5294c467-af24-4831-a941-ee7493854556"),
+                            IsActive = true,
+                            PersonId = new Guid("a3442178-b1ab-4ed6-92f3-24888c5aca1c"),
+                            Preferred = true,
+                            Type = 1,
+                            Value = "nastia@hw.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("762e3689-8e3c-47ef-a49c-1d0821430411"),
+                            IsActive = true,
+                            PersonId = new Guid("1d85075e-ce29-4c91-9e68-5fc11422e233"),
+                            Preferred = true,
+                            Type = 1,
+                            Value = "paul@hw.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("c8fcf62e-99c2-401b-a86e-d921021d8139"),
+                            IsActive = true,
+                            PersonId = new Guid("c67b71b0-a5c4-4f90-909a-90894a5548ca"),
+                            Preferred = true,
+                            Type = 1,
+                            Value = "john@hw.com"
                         });
                 });
 
@@ -159,12 +228,39 @@ namespace Macs.WebApi.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9d8191d0-5a97-4539-8082-13055ccd1aeb"),
-                            DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("959d7bf9-51f9-4a70-9f35-8fa82e06c718"),
+                            DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Mirela",
-                            LastName = "Sauca",
-                            MiddleName = "Lucia",
+                            LastName = "Developer",
+                            MiddleName = "",
                             Title = "Ms"
+                        },
+                        new
+                        {
+                            Id = new Guid("a3442178-b1ab-4ed6-92f3-24888c5aca1c"),
+                            DateOfBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Nastia",
+                            LastName = "Developer",
+                            MiddleName = "",
+                            Title = "Miss"
+                        },
+                        new
+                        {
+                            Id = new Guid("1d85075e-ce29-4c91-9e68-5fc11422e233"),
+                            DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "Paul",
+                            LastName = "Developer",
+                            MiddleName = "",
+                            Title = "Mr"
+                        },
+                        new
+                        {
+                            Id = new Guid("c67b71b0-a5c4-4f90-909a-90894a5548ca"),
+                            DateOfBirth = new DateTime(1980, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FirstName = "John",
+                            LastName = "Developer",
+                            MiddleName = "",
+                            Title = "Mr"
                         });
                 });
 
