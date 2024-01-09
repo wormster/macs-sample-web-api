@@ -10,10 +10,19 @@ namespace Macs.WebApi.Handlers.Services
     public interface IPersonHandler
     {
         Task<IEnumerable<Person>> GetListAsync();
-        Task<Person> AddPerson(Person person);
+        Task<Person> AddPersonAsync(Person person);
         Task<Person> UpdatePersonAsync(Person person);
         Task DeletePersonAsync(string id);
         Task<Person> GetPersonAsync(string id);
         Task<IEnumerable<Address>> GetPersonAddressesAsync(string id);
+        Task<Address> AddAddressAsync(Address address);
+        Task<Address> GetAddressAsync(string id);
+        Task<Address> UpdateAddressAsync(Address person);
+        Task DeleteAddressAsync(string id);
+        Task<Contact> AddContactAsync(Contact contact);
+        Task<Contact> GetContactAsync(string id);
+        Task<IEnumerable<Contact>> GetPersonContactsAsync(string id);
+        Task<Contact> UpdateContactAsync(Contact contact);
+        Task DeleteContactAsync(string id);
     }
 }
