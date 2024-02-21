@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Identity.Web;
 using System.Reflection;
+using Macs.WebApi.DataAccess;
 using Macs.WebApi.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);

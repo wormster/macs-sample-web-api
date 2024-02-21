@@ -12,7 +12,7 @@ namespace Macs.WebApi.Handlers.Services
         Task<IEnumerable<Person>> GetListAsync();
         Task<Person> AddPersonAsync(Person person);
         Task<Person> UpdatePersonAsync(Person person);
-        Task DeletePersonAsync(string id);
+        Task<bool> DeletePersonAsync(string id);
         Task<Person> GetPersonAsync(string id);
         Task<IEnumerable<Address>> GetPersonAddressesAsync(string id);
         Task<Address> AddAddressAsync(Address address);

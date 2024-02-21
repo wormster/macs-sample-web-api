@@ -23,15 +23,21 @@ namespace Macs.WebApi.DataAccess.Repositories
             context.Set<TEntity>().Remove(entity);
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var entity = await FindByKeyAsync(id);
+
+            if (entity == null)
+                return false;
             dbSet.Remove(entity);
+
+            return true;
         }
 
         public async Task<TEntity> GetByIdAsync(Guid id)
         {
-            return await context.Set<TEntity>().SingleAsync(entity => entity.Id == id);
+            return await dbSet.AsNoTracking()
+                .SingleOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()

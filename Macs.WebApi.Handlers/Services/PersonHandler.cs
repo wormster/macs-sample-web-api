@@ -44,10 +44,14 @@ namespace Macs.WebApi.Handlers.Services
             return person;
         }
 
-        public async Task DeletePersonAsync(string id)
+        public async Task<bool> DeletePersonAsync(string id)
         {
-            await personRepository.DeleteAsync(new Guid(id));
-            await personRepository.SaveChangesAsync();
+            var result = await personRepository.DeleteAsync(new Guid(id));
+
+            if (result)
+                await personRepository.SaveChangesAsync();
+
+            return result;
         }
 
         public async Task<IEnumerable<Address>> GetPersonAddressesAsync(string id)

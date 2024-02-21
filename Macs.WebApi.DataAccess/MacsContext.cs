@@ -1,8 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
+﻿using Macs.WebApi.DataAccess.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace Macs.WebApi.DataAccess.Entities
+namespace Macs.WebApi.DataAccess
 {
     public class MacsContext : DbContext
     {

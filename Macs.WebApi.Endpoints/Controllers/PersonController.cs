@@ -71,6 +71,7 @@ namespace Macs.WebApi.Endpoints.Controllers
         [Route("person/{id}", Name = "DeletePerson")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Person>> DeletePerson(string id)
         {
             if (!Guid.TryParse(id, out _))
@@ -78,9 +79,12 @@ namespace Macs.WebApi.Endpoints.Controllers
                 return BadRequest();
             }
 
-            await personHandler.DeletePersonAsync(id);
+            var result = await personHandler.DeletePersonAsync(id);
 
-            return NoContent();
+            if (result)
+                return NoContent();
+
+            return NotFound();
         }
 
         [HttpGet]
@@ -102,6 +106,7 @@ namespace Macs.WebApi.Endpoints.Controllers
         [Route("addresses/{id}", Name = "GetAddresses")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Address>> GetAddress(string id)
         {
             if (!Guid.TryParse(id, out _))
@@ -109,8 +114,12 @@ namespace Macs.WebApi.Endpoints.Controllers
                 return BadRequest();
             }
 
-            var addresses = await personHandler.GetAddressAsync(id);
-            return Ok(addresses);
+            var address = await personHandler.GetAddressAsync(id);
+
+            if (address == null)
+                return NotFound();
+
+            return Ok(address);
         }
 
 
@@ -145,6 +154,7 @@ namespace Macs.WebApi.Endpoints.Controllers
         [Route("contacts/{id}", Name = "GetContact")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Contact>> GetContact(string id)
         {
             if (!Guid.TryParse(id, out _))
@@ -153,6 +163,10 @@ namespace Macs.WebApi.Endpoints.Controllers
             }
 
             var contact = await personHandler.GetContactAsync(id);
+
+            if (contact == null)
+                return NotFound();
+
             return Ok(contact);
         }
 

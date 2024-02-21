@@ -8,7 +8,7 @@ namespace Macs.WebApi.DataAccess.Repositories
     {
         Task<TEntity> InsertAsync(TEntity entity);
         void Delete(TEntity entity);
-        Task DeleteAsync(Guid id);
+        Task<bool> DeleteAsync(Guid id);
         Task<TEntity> GetByIdAsync(Guid id);
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> FindByAsync(Expression<Func<TEntity, bool>> predicate);
